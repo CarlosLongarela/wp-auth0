@@ -112,6 +112,7 @@ class WP_Auth0_LoginManager {
 
 		$auth_url = 'https://' . $this->a0_options->get_auth_domain() . '/authorize';
 		$auth_url = add_query_arg( array_map( 'rawurlencode', $auth_params ), $auth_url );
+		$auth_url = apply_filters( 'auth0_authorize_url', $auth_url, $auth_params, $connection );
 
 		WP_Auth0_State_Handler::get_instance()->set_cookie( $auth_params['state'] );
 
@@ -559,6 +560,7 @@ class WP_Auth0_LoginManager {
 				$this->a0_options->get( 'client_id' ),
 				$telemetry_headers['Auth0-Client']
 			);
+			$redirect_url      = apply_filters( 'auth0_logout_url', $redirect_url );
 			wp_redirect( $redirect_url );
 			exit;
 		}
@@ -684,7 +686,7 @@ class WP_Auth0_LoginManager {
 			)
 		);
 
-		return $params;
+		return apply_filters( 'auth0_authorize_url_params', $params, $connection, $redirect_to );
 	}
 
 	/**
