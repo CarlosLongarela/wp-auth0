@@ -1,0 +1,37 @@
+version: 2
+jobs:
+  build:
+    docker:
+      - image: circleci/php:5.6.37-apache-node-browsers
+    environment:
+          LANG: en_US.UTF-8
+          WP_TESTS_DIR: /tmp/wordpress-tests-lib
+          WP_CORE_DIR: /tmp/wordpress/
+          PATH: $HOME/.composer/vendor/bin:$PATH
+
+    steps:
+      - run: 
+          name: Update
+          command: sudo apt-get update; sudo apt-get install subversion
+      - run: composer phpcbf
+      - run: composer phpcbf-tests
+      - run: composer phpcs-tests
+      - run: composer compat
+      - run: |
+          bash bin/install-wp-tests.sh wordpress_test ubuntu '' 127.0.0.1 latest
+          composer test
+      - run: |
+          rm -rf $WP_TESTS_DIR $WP_CORE_DIR
+          bash bin/install-wp-tests.sh wordpress_test ubuntu '' 127.0.0.1 trunk
+          composer test
+      - run: |
+          phpenv global 5.3.29
+          rm -rf $WP_TESTS_DIR $WP_CORE_DIR
+          bash bin/install-wp-tests.sh wordpress_test ubuntu '' 127.0.0.1 latest
+          composer test
+      - run: |
+          phpenv global 7.1.9
+          rm -rf $WP_TESTS_DIR $WP_CORE_DIR
+          bash bin/install-wp-tests.sh wordpress_test ubuntu '' 127.0.0.1 latest
+          composer test
+
