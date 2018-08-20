@@ -12,7 +12,7 @@ jobs:
       - checkout
       - run: 
           name: Update
-          command: sudo apt-get update; sudo apt-get install subversion
+          command: sudo apt-get update; sudo apt-get install -y subversion mysql-client
       - run: composer install
       - save_cache:
           key: composer-v1-{{ checksum "composer.lock" }}
