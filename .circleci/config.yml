@@ -3,15 +3,15 @@ jobs:
   build:
     docker:
       - image: circleci/php:5.6.37-node-browsers
-      - image: tkuchiki/delayed-mysql
-    working_directory: /tmp/wordpress/
-    environment:
-          WP_TESTS_DIR: /tmp/wordpress-tests-lib
-          WP_CORE_DIR: /tmp/wordpress/
-          MYSQL_ALLOW_EMPTY_PASSWORD: yes
-          MYSQL_ROOT_PASSWORD: ''
-          MYSQL_DATABASE: wordpress_test
-          MYSQL_USER: ubuntu
+          working_directory: /tmp/wordpress/
+          environment:
+            WP_TESTS_DIR: /tmp/wordpress-tests-lib
+            WP_CORE_DIR: /tmp/wordpress/
+       - image: circleci/mysql:5.6
+           environment:
+             MYSQL_ALLOW_EMPTY_PASSWORD: true
+             MYSQL_DATABASE: wordpress_test
+             MYSQL_USER: ubuntu
           
     steps:
       - checkout
