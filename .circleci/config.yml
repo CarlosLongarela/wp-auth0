@@ -6,7 +6,7 @@ jobs:
       - image: circleci/php:5.6.37-node-browsers
         environment:
           WP_TESTS_DIR: /tmp/wordpress-tests-lib
--         WP_CORE_DIR: /tmp/wordpress/
+          WP_CORE_DIR: /tmp/wordpress/
       - image: circleci/mysql:5.6
         environment:
           MYSQL_ALLOW_EMPTY_PASSWORD: true
